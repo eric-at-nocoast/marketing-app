@@ -1,19 +1,22 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
+import * as React from 'react';
+import { render } from 'react-dom';
+import { DEFAULT_THEME, ThemeProvider } from '@zendeskgarden/react-theming';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+/* Optional CSS normalization with selected element resets */
+import '@zendeskgarden/css-bedrock';
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+const rootElement = document.getElementById('root');
+
+render(
+  <div
+    style={{
+      backgroundColor: DEFAULT_THEME.palette.grey[100],
+    }}
+  >
+    <ThemeProvider>
+      <App />
+    </ThemeProvider>
+  </div>,
+  rootElement
+);
