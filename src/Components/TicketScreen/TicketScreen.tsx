@@ -5,6 +5,7 @@ import StyloIcon from './StyloIcon';
 import { DEFAULT_THEME } from '@zendeskgarden/react-theming';
 import { ReactComponent as BuildingIcon } from "@zendeskgarden/svg-icons/src/16/building-stroke.svg";
 import { MediaInput } from '@zendeskgarden/react-forms';
+import { LG, } from '@zendeskgarden/react-typography';
 import IconDropdown from './IconDropdown';
 import TagWell from './Tags';
 
@@ -41,6 +42,7 @@ const LeftPanel = styled.div`
 const MainNavigationPanel = styled.div`
 background-color: #03363D;
   display: block;
+  justify-content: center;
   position: absolute;
   height: 100%;
   top: 0;
@@ -114,12 +116,30 @@ const TopContainer = styled.div`
   padding: 16px;
   margin-top: 40px;
   padding-right: 25px;
+  padding-top: 0px;
 
   overflow-y: scroll;
   background-color: #f7f9fc;
   border-bottom: 1px solid #e0e0e0;
 `;
+const TopContainerHeader = styled.div`
+  height: 40px;
+  display: flex;
+  place-items: center;
+  justify-content: center;
+  width: calc(100% + 32px);
+  background-color: #f3f4f6;
+  position: sticky;
+  top: 0;
+  margin-left: -16px; 
+  margin-right: -16px;
+  box-sizing: border-box;
+  margin-bottom: 16px;
+  border: 1px solid #e0e0e0;
+  border-top: none;
+  border-left: none;
 
+`;
 const BottomContainer = styled.div`
   flex: 1;
   padding: 16px;
@@ -201,6 +221,10 @@ const StyloAppContainer = styled.div`
   padding: 8px;
 `;
 
+const NavigationIconWrapper = styled.div`
+  position: relative;
+  top: 80px; /* Replace x with the actual pixel value */
+`;
 
 
 function TicketScreen() {
@@ -221,7 +245,11 @@ function TicketScreen() {
     <>
       <GlobalStyle />
       <TopRow/>
-      <MainNavigationPanel/>
+      <MainNavigationPanel>
+      <NavigationIconWrapper>
+          <StyloIcon fill="#FFFFFF" size='24px'/>
+        </NavigationIconWrapper>
+      </MainNavigationPanel>
 
       <Container>
 
@@ -246,6 +274,10 @@ function TicketScreen() {
         </LeftPanel>
         <RightPanel>
           <TopContainer>
+          <TopContainerHeader>
+            <LG>Example Subject</LG>
+          </TopContainerHeader>
+
             {/* Past messages should be rendered here; it's a static representation for now */}
             <Message>Agent: Hello, how can I assist you today?</Message>
             <Message>Customer: I am facing issues with my order.</Message>

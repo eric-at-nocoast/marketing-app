@@ -1,8 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 const IconWrapper = styled.div`
-width: 16px;
-height: 16px;
 display: flex;
 align-items: center;
 justify-content: center;
@@ -14,20 +12,22 @@ justify-content: center;
 interface Props {
     fill?: string;
     marginValue?: string;
+    size?: string
 }
 
-function StyloIcon({ fill, marginValue }: Props) {
+function StyloIcon({ fill, marginValue, size }: Props) {
 
 
   return (
     <IconWrapper style={{marginRight: marginValue || '0px' }}>
-    <svg
-      width="16"
-      height="16"
-      viewBox="1 1 74 74"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
+<svg
+  width={parseInt(size || '16', 10)}
+  height={parseInt(size || '16', 10)}
+  viewBox="0 0 74 74"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+>
+
       <path
         fillRule="evenodd"
         clipRule="evenodd"
