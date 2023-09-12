@@ -219,8 +219,8 @@ export default function StyloApp() {
     <>
     <Grid style={{ fontSize: "12px", 
     padding: "0px 10px", 
-    maxHeight: '360px', 
-    maxWidth: '800px', 
+    height: '320px', 
+    width: '800px', 
     overflow: 'auto'  }} gutters="sm">
       <Row>
         <Col>

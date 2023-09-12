@@ -1,5 +1,5 @@
 import React from 'react';
-import TicketScreen from './TicketScreen';
+import TicketScreen from './Components/TicketScreen/TicketScreen';
 
 export default function App() {
 

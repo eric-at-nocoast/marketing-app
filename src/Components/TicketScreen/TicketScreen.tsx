@@ -1,12 +1,12 @@
 import React from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
-import StyloApp from './StyloApp';
+import StyloApp from '../StyloApp/StyloApp';
 import StyloIcon from './StyloIcon';
 import { DEFAULT_THEME } from '@zendeskgarden/react-theming';
 import { ReactComponent as BuildingIcon } from "@zendeskgarden/svg-icons/src/16/building-stroke.svg";
 import { MediaInput } from '@zendeskgarden/react-forms';
-import IconDropdown from './Components/TicketScreen/IconDropdown';
-import TagWell from './Components/TicketScreen/Tags';
+import IconDropdown from './IconDropdown';
+import TagWell from './Tags';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -18,18 +18,80 @@ const GlobalStyle = createGlobalStyle`
 
 const Container = styled.div`
   display: flex;
-  height: calc(100vh - 100px); /* Making space for the new row */
+  height: calc(100vh - 100px); 
   width: 100vw;
+  padding-left: 60px;
+  padding-right: 30px;
 `;
 
 const LeftPanel = styled.div`
   width: 300px;
   background-color: #f3f4f6;
-  padding: 16px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   gap: 16px;
+  margin-top: 40px;
+  height: 100%;
+  border: 1px solid #e0e0e0;
+  border-top: none;
+
 `;
+
+const MainNavigationPanel = styled.div`
+background-color: #03363D;
+  display: block;
+  position: absolute;
+  height: 100%;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 60px;
+  z-index: 1500;
+`
+const MainAppPanel = styled.div`
+  background-color: #f7f9fc;
+  position: fixed; 
+  height: 100vh; 
+  width: 40px; 
+  top: 0; 
+  bottom: 0; 
+  right: 0; 
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 40px; // Adjust based on the height of TopRow
+    left: 0;
+    right: 0;
+    bottom: 41px; // Adjust based on the height of BottomRow
+    border-left: 1px solid #e0e0e0;
+  }
+`;
+
+const TopRow = styled.div`
+  width: 100%;
+  height: 40px;
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px 15px;
+  background-color: #f7f9fc; 
+  position: absolute;
+  border-bottom: 1px solid #e0e0e0; 
+`;
+
+const BottomRow = styled.div`
+  position: fixed; 
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px 50px;
+  background-color: #f7f9fc; 
+  z-index: 1000;
+  bottom: 0; // You will need to add this to fix the position at the bottom
+  border-top: 1px solid #e0e0e0;
+`;
+
 
 const Label = styled.label`
   font-weight: bold;
@@ -50,6 +112,9 @@ const RightPanel = styled.div`
 const TopContainer = styled.div`
   flex: 2;
   padding: 16px;
+  margin-top: 40px;
+  padding-right: 25px;
+
   overflow-y: scroll;
   background-color: #f7f9fc;
   border-bottom: 1px solid #e0e0e0;
@@ -58,6 +123,7 @@ const TopContainer = styled.div`
 const BottomContainer = styled.div`
   flex: 1;
   padding: 16px;
+  padding-right: 25px;
   background-color: #fff;
   position: relative;
 `;
@@ -81,6 +147,7 @@ const TextArea = styled.textarea`
   font-size: 16px;
   resize: none;
   margin-bottom: -5px;
+  margin-top: 20px;
   &:focus {
     outline: none;
     box-shadow: none;
@@ -109,24 +176,7 @@ const Icon = styled.div<{ active?: boolean }>`
   } 
 `;
 
-const TopRow = styled.div`
-  width: 100%;
-  height: 40px;
-  display: flex;
-  justify-content: flex-end;
-  padding: 10px 15px;
-  background-color: #f7f9fc; 
-  border-bottom: 1px solid #e0e0e0; 
-`;
 
-const BottomRow = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
-  padding: 10px 15px;
-  background-color: #f7f9fc; 
-  border-top: 1px solid #e0e0e0; 
-`;
 
 const SubmitButton = styled.button`
   padding: 10px 20px;
@@ -139,6 +189,7 @@ const SubmitButton = styled.button`
   &:hover {
     background-color: #730060; 
   }
+
 `;
 
 const StyloAppContainer = styled.div`
@@ -170,7 +221,10 @@ function TicketScreen() {
     <>
       <GlobalStyle />
       <TopRow/>
+      <MainNavigationPanel/>
+
       <Container>
+
         <LeftPanel>
         <Field>
           <Label>Brand</Label>
@@ -213,6 +267,7 @@ function TicketScreen() {
           </BottomContainer>
         </RightPanel>
       </Container>
+      <MainAppPanel/>
       <BottomRow>
           <SubmitButton onClick={() => console.log('Submit Ticket clicked')}>Submit Ticket</SubmitButton>
         </BottomRow>
