@@ -73,10 +73,12 @@ const MainAppPanel = styled.div`
 
 const TopRow = styled.div`
   width: 100%;
-  height: 40px;
+  height: 50px;
   display: flex;
   justify-content: flex-end;
   padding: 10px 15px;
+  padding-left: 0px;
+  padding-top: 0px;
   background-color: #f7f9fc; 
   position: absolute;
   border-bottom: 1px solid #e0e0e0; 
@@ -114,7 +116,7 @@ const RightPanel = styled.div`
 const TopContainer = styled.div`
   flex: 2;
   padding: 16px;
-  margin-top: 40px;
+  margin-top: 50px;
   padding-right: 25px;
   padding-top: 0px;
 
@@ -227,6 +229,34 @@ const NavigationIconWrapper = styled.div`
 `;
 
 
+const TabContainer = styled.div`
+  display: flex;
+  width: 100%;
+  padding-left: 50px;
+  z-index: 1000;
+`;
+
+const Tab = styled.div`
+
+max-width: 240px;
+height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1 1 0px;
+  background: #f0f0f0;
+  border: 1px solid #e0e0e0;
+}
+  &:hover {
+    background-color: #F3EEFF; 
+
+  }
+`;
+
+function truncateText(text: string, length: number) {
+  return text.length > length ? text.substring(0, length) + "..." : text;
+}
+
 function TicketScreen() {
     const [styloVisible, setStyloVisible] = React.useState(false);    
 
@@ -244,7 +274,11 @@ function TicketScreen() {
   return (
     <>
       <GlobalStyle />
-      <TopRow/>
+      <TopRow>
+      <TabContainer>
+      <Tab><StyloIcon fill='#000000' marginValue='8px'/>{truncateText('This is an example subject truncated', 22)}</Tab>
+    </TabContainer>
+        </TopRow>
       <MainNavigationPanel>
       <NavigationIconWrapper>
           <StyloIcon fill="#FFFFFF" size='24px'/>
