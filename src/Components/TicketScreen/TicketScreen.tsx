@@ -1,5 +1,5 @@
 import React from 'react';
-import styled, { createGlobalStyle } from 'styled-components';
+import styled from 'styled-components';
 import StyloApp from '../StyloApp/StyloApp';
 import StyloIcon from './StyloIcon';
 import { DEFAULT_THEME } from '@zendeskgarden/react-theming';
@@ -8,14 +8,9 @@ import { MediaInput } from '@zendeskgarden/react-forms';
 import { LG, } from '@zendeskgarden/react-typography';
 import IconDropdown from './IconDropdown';
 import TagWell from './Tags';
+import Layout from '../Common/Layout';
 
-const GlobalStyle = createGlobalStyle`
-  body {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-`;
+
 
 const Container = styled.div`
   display: flex;
@@ -33,24 +28,13 @@ const LeftPanel = styled.div`
   flex-direction: column;
   gap: 16px;
   margin-top: 40px;
-  height: 100%;
+  height: calc(100vh);
   border: 1px solid #e0e0e0;
   border-top: none;
 
 `;
 
-const MainNavigationPanel = styled.div`
-background-color: #03363D;
-  display: block;
-  justify-content: center;
-  position: absolute;
-  height: 100%;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  width: 60px;
-  z-index: 1500;
-`
+
 const MainAppPanel = styled.div`
   background-color: #f7f9fc;
   position: fixed; 
@@ -71,18 +55,7 @@ const MainAppPanel = styled.div`
   }
 `;
 
-const TopRow = styled.div`
-  width: 100%;
-  height: 50px;
-  display: flex;
-  justify-content: flex-end;
-  padding: 10px 15px;
-  padding-left: 0px;
-  padding-top: 0px;
-  background-color: #f7f9fc; 
-  position: absolute;
-  border-bottom: 1px solid #e0e0e0; 
-`;
+
 
 const BottomRow = styled.div`
   position: fixed; 
@@ -223,39 +196,6 @@ const StyloAppContainer = styled.div`
   padding: 8px;
 `;
 
-const NavigationIconWrapper = styled.div`
-  position: relative;
-  top: 80px; /* Replace x with the actual pixel value */
-`;
-
-
-const TabContainer = styled.div`
-  display: flex;
-  width: 100%;
-  padding-left: 50px;
-  z-index: 1000;
-`;
-
-const Tab = styled.div`
-
-max-width: 240px;
-height: 50px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex: 1 1 0px;
-  background: #f0f0f0;
-  border: 1px solid #e0e0e0;
-}
-  &:hover {
-    background-color: #F3EEFF; 
-
-  }
-`;
-
-function truncateText(text: string, length: number) {
-  return text.length > length ? text.substring(0, length) + "..." : text;
-}
 
 function TicketScreen() {
     const [styloVisible, setStyloVisible] = React.useState(false);    
@@ -272,35 +212,22 @@ function TicketScreen() {
       };
 
   return (
-    <>
-      <GlobalStyle />
-      <TopRow>
-      <TabContainer>
-      <Tab><StyloIcon fill='#000000' marginValue='8px'/>{truncateText('This is an example subject truncated', 22)}</Tab>
-    </TabContainer>
-        </TopRow>
-      <MainNavigationPanel>
-      <NavigationIconWrapper>
-          <StyloIcon fill="#FFFFFF" size='24px'/>
-        </NavigationIconWrapper>
-      </MainNavigationPanel>
-
+    <Layout>
       <Container>
-
         <LeftPanel>
-        <Field>
-          <Label>Brand</Label>
-          <MediaInput start={<BuildingIcon />} value="Example Brand"/>
+          <Field>
+            <Label>Brand</Label>
+            <MediaInput start={<BuildingIcon />} value="Example Brand" />
           </Field>
           <Field>
-          <IconDropdown options={['Luke Skywalker', 'Yoda', 'Darth Vader']} label='Requester'/>
+            <IconDropdown options={['Luke Skywalker', 'Yoda', 'Darth Vader']} label='Requester' />
           </Field>
           <Field>
-          <IconDropdown 
-          options={['Han Solo', 'R2-D2', 'C-3P0']} 
-          label='Assignee' 
-          startIcon={() => <StyloIcon fill='#330493' marginValue='8px' />} 
-/>
+            <IconDropdown
+              options={['Han Solo', 'R2-D2', 'C-3P0']}
+              label='Assignee'
+              startIcon={() => <StyloIcon fill='#330493' marginValue='8px' />}
+            />
           </Field>
           <Field>
             <TagWell tags={['Tag 1', 'Tag 2', 'Tag 3', 'Tag 4', 'Tag 5', 'Tag 6']} />
@@ -308,10 +235,9 @@ function TicketScreen() {
         </LeftPanel>
         <RightPanel>
           <TopContainer>
-          <TopContainerHeader>
-            <LG>Example Subject</LG>
-          </TopContainerHeader>
-
+            <TopContainerHeader>
+              <LG>Example Subject</LG>
+            </TopContainerHeader>
             {/* Past messages should be rendered here; it's a static representation for now */}
             <Message>Agent: Hello, how can I assist you today?</Message>
             <Message>Customer: I am facing issues with my order.</Message>
@@ -319,26 +245,26 @@ function TicketScreen() {
           </TopContainer>
 
           <BottomContainer>
-          {styloVisible && (
-        <StyloAppContainer style={{ top: `${buttonPosition.top - 330}px`, left: `${buttonPosition.left + 25}px` }}>
-          <StyloApp />
-        </StyloAppContainer>
-      )}
-        <TextArea placeholder="Enter text here..." />
-      <IconContainer>
-        <Icon onClick={() => console.log('Icon 1 clicked')}>👍</Icon>
-        <Icon onClick={() => console.log('Icon 2 clicked')}>👎</Icon>
-        <Icon  active={styloVisible} onClick={handleVisibilityToggle}  ref={buttonRef}><StyloIcon fill={styloVisible ? '#FF52EF' : '#000000'}/></Icon>
-      </IconContainer>
+            {styloVisible && (
+              <StyloAppContainer style={{ top: `${buttonPosition.top - 330}px`, left: `${buttonPosition.left + 25}px` }}>
+                <StyloApp />
+              </StyloAppContainer>
+            )}
+            <TextArea placeholder="Enter text here..." />
+            <IconContainer>
+              <Icon onClick={() => console.log('Icon 1 clicked')}>👍</Icon>
+              <Icon onClick={() => console.log('Icon 2 clicked')}>👎</Icon>
+              <Icon active={styloVisible} onClick={handleVisibilityToggle} ref={buttonRef}><StyloIcon fill={styloVisible ? '#FF52EF' : '#000000'} /></Icon>
+            </IconContainer>
           </BottomContainer>
         </RightPanel>
       </Container>
-      <MainAppPanel/>
+      <MainAppPanel />
       <BottomRow>
-          <SubmitButton onClick={() => console.log('Submit Ticket clicked')}>Submit Ticket</SubmitButton>
-        </BottomRow>
-    </>
+        <SubmitButton onClick={() => console.log('Submit Ticket clicked')}>Submit Ticket</SubmitButton>
+      </BottomRow>
+    </Layout>
   );
-}
+};
 
 export default TicketScreen;
