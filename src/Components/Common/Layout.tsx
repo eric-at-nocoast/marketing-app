@@ -1,6 +1,7 @@
 import styled, { createGlobalStyle } from "styled-components";
 import StyloIcon from "../TicketScreen/StyloIcon";
 import { useNavigate } from "react-router-dom";
+import { ReactNode } from "react";
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -72,7 +73,7 @@ function truncateText(text: string, length: number) {
     return text.length > length ? text.substring(0, length) + "..." : text;
   }
 
-function Layout({ children } : any) {
+function Layout({ children }: {children: ReactNode} ) {
     const navigate = useNavigate();
 
     return (
@@ -88,7 +89,9 @@ function Layout({ children } : any) {
             <StyloIcon fill="#FFFFFF" size='24px' />
           </NavigationIconWrapper>
         </MainNavigationPanel>
+        <div>
         {children}
+        </div>
       </>
     );
   }
