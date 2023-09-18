@@ -6,7 +6,6 @@ const GetRandomEntryFromStore = async (storeName: string): Promise<Record<string
         const db = (event.target as IDBRequest<IDBDatabase>).result;
         const transaction = db.transaction([storeName], 'readonly');
         const store = transaction.objectStore(storeName);
-        console.log(store)
         const countRequest = store.count();
         countRequest.onsuccess = () => {
           if (countRequest.result === 0) {
