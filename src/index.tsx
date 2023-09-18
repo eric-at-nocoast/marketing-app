@@ -6,17 +6,33 @@ import App from './App';
 /* Optional CSS normalization with selected element resets */
 import '@zendeskgarden/css-bedrock';
 
+import { setupIndexedDB } from './Data/seed';
+
 const rootElement = document.getElementById('root');
 
-render(
-  <div
-    style={{
-      backgroundColor: DEFAULT_THEME.palette.grey[100],
-    }}
-  >
-    <ThemeProvider>
-      <App />
-    </ThemeProvider>
-  </div>,
-  rootElement
-);
+const initializeApp = async () => {
+  try {
+    // Setup IndexedDB with the obtained keys
+    await setupIndexedDB();
+    
+    // Populate data into IndexedDB
+  } catch (error) {
+    console.error('Database setup failed:', error);
+  }
+
+  render(
+    <div
+      style={{
+        backgroundColor: DEFAULT_THEME.palette.grey[100],
+      }}
+    >
+      <ThemeProvider>
+        <App />
+      </ThemeProvider>
+    </div>,
+    rootElement
+  );
+};
+
+initializeApp();
+

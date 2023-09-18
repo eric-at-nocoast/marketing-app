@@ -30,7 +30,7 @@ background-color: #03363D;
   display: block;
   justify-content: center;
   position: absolute;
-  height: calc(100vh + 40px);
+  height: 100%;
   top: 0;
   bottom: 0;
   left: 0;
@@ -65,7 +65,7 @@ height: 50px;
 
 const NavigationIconWrapper = styled.div`
   position: relative;
-  top: 80px; /* Replace x with the actual pixel value */
+  top: 80px;
 `;
 
 

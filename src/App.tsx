@@ -12,14 +12,14 @@ export default function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<TicketScreen />} />
+        <Route path="/" element={<LandingPage />} />
         <Route path="/navbar" element={<NavBar/>} />
         <Route path="/navbar/getting-started" element={<GettingStarted />} />
         <Route
           path="/navbar/assist-brand-settings"
           element={<AssistBrandSettings />}
         />
-        <Route path="/landing-page" element={<LandingPage />} />
+        <Route path="/ticket/123" element={<TicketScreen/>} />
         <Route path="/navbar/policy-engine" element={<PolicyEngine />} />
       </Routes>
     </Router>
