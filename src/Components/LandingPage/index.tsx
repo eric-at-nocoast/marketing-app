@@ -248,7 +248,7 @@ export const LandingPage: React.FC = () => {
     try {
       const randomEntry = await GetRandomEntryFromStore(selectedIndustry.value);
       console.log(randomEntry)
-      navigate('/', { state: { exampleObj: randomEntry } });
+      navigate('/ticket/123', { state: { exampleObj: randomEntry } });
     } catch (error) {
       console.error('Failed to get random entry', error);
       // Optionally show an error message to the user
