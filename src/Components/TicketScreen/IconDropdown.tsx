@@ -12,21 +12,7 @@ const StyledAutocomplete = styled(Autocomplete)`
 `;
 
 const IconDropDown = ({ options = [
-  'Asparagus',
-  'Brussel sprouts',
-  'Cauliflower',
-  'Garlic',
-  'Jerusalem artichoke',
-  'Kale',
-  'Lettuce',
-  'Onion',
-  'Mushroom',
-  'Potato',
-  'Radish',
-  'Spinach',
-  'Tomato',
-  'Yam',
-  'Zucchini'
+  'Luke Skywalker',
 ], label = "Requester", startIcon: StartIcon = UserIcon }) => {
   const [selectedItem, setSelectedItem] = useState(options[0]);
   const [inputValue, setInputValue] = useState('');
@@ -53,6 +39,7 @@ const IconDropDown = ({ options = [
     <Row justifyContent="center">
       <Col>
         <Dropdown
+          
           inputValue={inputValue}
           selectedItem={selectedItem}
           onSelect={item => setSelectedItem(item)}
@@ -61,7 +48,7 @@ const IconDropDown = ({ options = [
         >
           <Field>
             <Label>{label}</Label>
-            <StyledAutocomplete start={<StartIcon />}>{selectedItem}</StyledAutocomplete>
+            <StyledAutocomplete disabled start={<StartIcon />}>{selectedItem}</StyledAutocomplete>
           </Field>
           <Menu>
             {matchingOptions.length ? (

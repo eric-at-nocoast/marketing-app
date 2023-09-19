@@ -47,6 +47,7 @@
     "react-dom": "^18.2.0",
     "react-dropzone": "latest",
     "react-frame-component": "^5.2.6",
+    "react-markdown": "^8.0.7",
     "react-router-dom": "^6.15.0",
     "react-scripts": "latest",
     "react-window": "latest",
@@ -80,6 +81,7 @@
     ]
   },
   "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@types/styled-components": "^5.1.26"
   }
 }

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Col, Grid, Row } from '@zendeskgarden/react-grid';
 import { Tab, TabList, TabPanel, Tabs } from '@zendeskgarden/react-tabs';
 import { XXL } from '@zendeskgarden/react-typography';
-import NavLayout from '../../Layout/NavBar/NavLayout'
+import NavLayout from '../../layouts/NavBar/NavLayout'
 import BrandPolicyComponent from '../PolicyComponents/BrandPolicyComponent';
 
 export default function PolicyEngine() {

@@ -1,16 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import StyloApp from "../StyloApp/StyloApp";
+import StyloApp from "../styloApp/StyloApp";
 import StyloIcon from "./StyloIcon";
 import { DEFAULT_THEME } from "@zendeskgarden/react-theming";
 import { ReactComponent as BuildingIcon } from "@zendeskgarden/svg-icons/src/16/building-stroke.svg";
-import { ReactComponent as UserIcon } from '@zendeskgarden/svg-icons/src/16/user-circle-fill.svg';
+import { ReactComponent as UserIcon } from "@zendeskgarden/svg-icons/src/16/user-circle-fill.svg";
+import {ReactComponent as Link } from '@zendeskgarden/svg-icons/src/16/link-fill.svg';
+import {ReactComponent as Text } from '@zendeskgarden/svg-icons/src/16/text-stroke.svg';
 import { MediaInput } from "@zendeskgarden/react-forms";
 import { LG, MD } from "@zendeskgarden/react-typography";
 import { useLocation } from "react-router-dom";
 import IconDropdown from "./IconDropdown";
 import TagWell from "./Tags";
-import Layout from "../Common/Layout";
+import Layout from "../common/Layout";
+import { TicketBody, OutputFormat } from "../../types/common";
 
 const Container = styled.div`
   display: flex;
@@ -136,12 +139,12 @@ const Icon = styled.div<{ active?: boolean }>`
   background-color: ${(props) =>
     props.active ? DEFAULT_THEME.palette.grey[200] : ""};
   border-radius: 4px;
-  cursor: pointer;
+  cursor: ${(props) => (props.active ? "pointer" : "default")};
   margin-bottom: 5px;
   padding: 8px;
 
   hover: {
-    background-color: #e0e0e0;
+    background-color: ${(props)=> props.active ? DEFAULT_THEME.palette.grey[200] : ''};
   }
 `;
 
@@ -152,13 +155,22 @@ const SubmitButton = styled.button`
   border: none;
   border-radius: 4px;
   cursor: pointer;
-
-  &:hover {
+  &:disabled {
+    background-color: #87929d;
+    cursor: not-allowed;
+  }
+  &:hover:not(:disabled) {
     background-color: #730060;
   }
 `;
 
 const StyloAppContainer = styled.div`
+@media (min-width: 1440px) {
+  width: 800px;
+};
+@media (min-width: 1440px) {
+  width: 800px;
+};
   position: fixed;
   z-index: 1000;
   background-color: #fff;
@@ -168,100 +180,199 @@ const StyloAppContainer = styled.div`
   box-sizing: border-box;
 `;
 
+
+type ExampleComment = {
+  id: number;
+  type: string;
+  body: string;
+  public: boolean;
+  via: {
+    channel: string;
+    source: {
+      from: {
+        name: string;
+        email: string;
+      };
+      to: {
+        name: string;
+        email: string;
+      };
+    };
+  };
+};
+
+function transformJson(comment: ExampleComment): OutputFormat {
+  let is_end_user =
+    comment.via.source.from.email === "customer@example.com" ? true : false;
+  let user_id = is_end_user ? 123 : 789;
+
+  return {
+    is_end_user,
+    author_id: user_id,
+    plain_text: comment.body,
+  };
+}
+
+
+
+
+
 function TicketScreen() {
-  const [styloVisible, setStyloVisible] = React.useState(false);
+  const [styloVisible, setStyloVisible] = useState(false);
   const [exampleObj, setExampleObj] = useState<any>(null);
+  const [ticketBody, setTicketBody] = useState<TicketBody>();
+  const [textAreaValue, setTextAreaValue] = useState("");
   const location = useLocation();
 
-  const [buttonPosition, setButtonPosition] = React.useState({
+  const [buttonPosition, setButtonPosition] = useState({
     top: 0,
     left: 0,
+    height: 0,
+    width: 0,
   });
-  const buttonRef = React.useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLDivElement>(null);
+
+  console.log(location.state)
 
 
   useEffect(() => {
     const fallbackObj = {
-      "comments": [
+      comments: [
         {
-          "id": 1,
-          "type": "Comment",
-          "body": "Hello, I have a question about one of your products.",
-          "public": true,
-          "via": {
-            "channel": "Web",
-            "source": {
-              "from": "Customer",
-              "to": "EcoHomestead"
-            }
-          }
+          id: 1,
+          type: "Comment",
+          body: "Hello, I have a question about one of your products.",
+          public: true,
+          via: {
+            channel: "Web",
+            source: {
+              from: "Customer",
+              to: "EcoHomestead",
+            },
+          },
         },
         {
-          "id": 2,
-          "type": "Comment",
-          "body": "Sure, go ahead and ask your question. I'll be happy to help!",
-          "public": true,
-          "via": {
-            "channel": "Web",
-            "source": {
-              "from": "EcoHomestead",
-              "to": "Customer"
-            }
-          }
+          id: 2,
+          type: "Comment",
+          body: "Sure, go ahead and ask your question. I'll be happy to help!",
+          public: true,
+          via: {
+            channel: "Web",
+            source: {
+              from: "EcoHomestead",
+              to: "Customer",
+            },
+          },
         },
         {
-          "id": 3,
-          "type": "Comment",
-          "body": "I'm interested in purchasing the 'EcoBamboo Cutting Board.' Can you please tell me what material it is made of?",
-          "public": true,
-          "via": {
-            "channel": "Web",
-            "source": {
-              "from": "Customer",
-              "to": "EcoHomestead"
-            }
-          }
+          id: 3,
+          type: "Comment",
+          body: "I'm interested in purchasing the 'EcoBamboo Cutting Board.' Can you please tell me what material it is made of?",
+          public: true,
+          via: {
+            channel: "Web",
+            source: {
+              from: "Customer",
+              to: "EcoHomestead",
+            },
+          },
         },
         {
-          "id": 4,
-          "type": "Comment",
-          "body": "Thank you for your inquiry! The 'EcoBamboo Cutting Board' is made from 100% organic bamboo.",
-          "public": true,
-          "via": {
-            "channel": "Web",
-            "source": {
-              "from": "EcoHomestead",
-              "to": "Customer"
-            }
-          }
+          id: 4,
+          type: "Comment",
+          body: "Thank you for your inquiry! The 'EcoBamboo Cutting Board' is made from 100% organic bamboo.",
+          public: true,
+          via: {
+            channel: "Web",
+            source: {
+              from: "EcoHomestead",
+              to: "Customer",
+            },
+          },
         },
         {
-          "id": 5,
-          "type": "Comment",
-          "body": "That's great! Bamboo is a sustainable material. Does it come with any certifications?",
-          "public": true,
-          "via": {
-            "channel": "Web",
-            "source": {
-              "from": "Customer",
-              "to": "EcoHomestead"
-            }
-          }
-        }
+          id: 5,
+          type: "Comment",
+          body: "That's great! Bamboo is a sustainable material. Does it come with any certifications?",
+          public: true,
+          via: {
+            channel: "Web",
+            source: {
+              from: "Customer",
+              to: "EcoHomestead",
+            },
+          },
+        },
       ],
-      "id": "ab1dfaed-2473-48ee-bd7a-831c3f5a911f"
-    }
+      id: "ab1dfaed-2473-48ee-bd7a-831c3f5a911f",
+    };
+    const industryObj = {
+      education: {
+      value: 'education',
+      companyName: 'LearnSphere',
+      companysubdomain: 'trylo-education',
+    },
+    ecommerce: {
+      value: 'ecommerce',
+      companyName: 'EcoHomestead',
+      companysubdomain: 'trylo-ecommerce',
+    },
+    energy: {
+      value: 'energy',
+      companyName: 'Bright Energy',
+      companysubdomain: 'trylo-energy',
+    },
+    entertainment: {
+      value: 'entertainment',
+      companyName: 'StarStreamCo',
+      companysubdomain: 'trylo-entertainment',
+    },
+    finance: {
+      value: 'finance',
+      companyName: 'SecureWealth',
+      companysubdomain: 'trylo-finance',
+    }}
+    
+
+    if(location.state.exampleObj && location.state.industry){
+        const randomTicketId = Math.floor(Math.random() * 10000);
+        const comments = location.state.exampleObj.comments;
+        console.log('test', comments)
+        let cleanedComments: any[] = [];
+  
+        comments.forEach((comment: ExampleComment) => {
+          const outputData = transformJson(comment);
+          cleanedComments.push(outputData);
+        });
+
+
+         const industry: string = location.state.industry;
+          const companySubdomain: string = industryObj[industry as keyof typeof industryObj].companysubdomain;
+
+
+        const ticketBody = {
+          ticket_info: {
+            subdomain: "d3v-trylo",
+            brand_subdomain: companySubdomain,
+            ticket_id: randomTicketId,
+            description: cleanedComments[0].plain_text,
+          },
+          comments: cleanedComments,
+        };
+        setTicketBody(ticketBody);
+
+      }
     setExampleObj(location.state?.exampleObj || fallbackObj);
-  }, [location.state]);
+
+  }, [location.state.industry, location.state.exampleObj ]);
 
   const handleVisibilityToggle = () => {
     if (buttonRef.current) {
       const rect = buttonRef.current.getBoundingClientRect();
-      setButtonPosition({ top: rect.top, left: rect.left });
+      setButtonPosition({ top: rect.top, left: rect.left, height: rect.height, width: rect.width });
     }
     setStyloVisible((prevVisibility) => !prevVisibility);
   };
-
   return (
     <Layout>
       <Container>
@@ -294,35 +405,62 @@ function TicketScreen() {
             <TopContainerHeader>
               <LG>Example Subject</LG>
             </TopContainerHeader>
-            {exampleObj?.comments?.map((comment: any, index: any) => (
-              <>
-              <MD style={{marginLeft: '32px'}}>{comment.via.source.from}</MD>
-              <div style={{display: 'flex', alignItems: 'center'}}>
-                {comment.via.source.from === 'Customer' ? <UserIcon style={{height: '24px', width: '24px', marginRight: '8px'}} /> : <StyloIcon fill="#330493" marginValue="8px" size="24px"/>}
-            <Message key={index}>{comment.body}</Message>
-            </div>
-            </>
-            ))}
+            {exampleObj?.comments?.map((comment: any, index: any) => {
+              const via = comment.via.source.from.name ?? "";
+              return (
+                <>
+                  <MD style={{ marginLeft: "32px" }}>
+                    {via === "Customer" || via === 'customer' || via === 'customer@example.com' ? "Luke Skywalker" : "Han Solo"}
+                  </MD>
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    {typeof via === "string" &&
+                    (via.includes("customer") || via.includes("Customer" || via === 'customer@example.com')) ? (
+                      <UserIcon
+                        style={{
+                          height: "24px",
+                          width: "24px",
+                          marginRight: "8px",
+                        }}
+                      />
+                    ) : (
+                      <StyloIcon fill="#330493" marginValue="8px" size="24px" />
+                    )}
+                    <Message style={{backgroundColor: via === 'Customer' || via === 'customer' || via === 'customer@example.com' ? '#F3EEFF' : '#FFEEFD' }} key={index}>{comment.body}</Message>
+                  </div>
+                </>
+              );
+            })}
           </TopContainer>
 
           <BottomContainer>
-            {styloVisible && (
+            {ticketBody && (
               <StyloAppContainer
-                style={{
-                  top: `${buttonPosition.top - 330}px`,
-                  left: `${buttonPosition.left + 25}px`,
-                }}
+              style={{
+                top: `${buttonPosition.top - 330}px`, 
+                left: `${buttonPosition.left + 15}px`,
+                visibility: styloVisible ? "visible" : "hidden", 
+              }}
               >
-                <StyloApp />
+                <StyloApp 
+                ticketObj={ticketBody}
+                styloVisible={styloVisible} 
+                setTextAreaValue={setTextAreaValue}
+                />
               </StyloAppContainer>
             )}
-            <TextArea placeholder="Enter text here..." />
+            <TextArea
+              value={textAreaValue}
+              onChange={(e)=>{setTextAreaValue(e.target.value)}}
+             />
             <IconContainer>
-              <Icon onClick={() => console.log("Icon 1 clicked")}>👍</Icon>
-              <Icon onClick={() => console.log("Icon 2 clicked")}>👎</Icon>
+              <Icon active={false} onClick={() => console.log("Icon 1 clicked")}><Link/></Icon>
+              <Icon active={false} onClick={() => console.log("Icon 2 clicked")}><Text/></Icon>
               <Icon
+              id="stylo-button"
                 active={styloVisible}
-                onClick={handleVisibilityToggle}
+                onClick={() => {
+                  handleVisibilityToggle();
+                }}
                 ref={buttonRef}
               >
                 <StyloIcon fill={styloVisible ? "#FF52EF" : "#000000"} />
@@ -332,7 +470,7 @@ function TicketScreen() {
         </RightPanel>
       </Container>
       <BottomRow>
-        <SubmitButton onClick={() => console.log("Submit Ticket clicked")}>
+        <SubmitButton disabled={ textAreaValue === '' ? true : false }  onClick={() => console.log("Submit Ticket clicked")}>
           Submit Ticket
         </SubmitButton>
       </BottomRow>

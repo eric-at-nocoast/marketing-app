@@ -1,5 +1,5 @@
 import React, { ReactNode, useState } from 'react';
-import Layout from '../../Common/Layout';
+import Layout from '../../common/Layout';
 import styled from 'styled-components';
 import { MD } from '@zendeskgarden/react-typography';
 import { ReactComponent as ChevronUp } from "@zendeskgarden/svg-icons/src/16/chevron-up-fill.svg";
@@ -8,7 +8,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 const Container = styled.div`
   display: flex;
-  height: calc(100vh + 40px);
+  height: calc(100vh);
   width: 100vw;
   padding-left: 60px;
   padding-right: 30px;

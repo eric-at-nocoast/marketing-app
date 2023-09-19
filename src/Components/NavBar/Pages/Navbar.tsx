@@ -1,5 +1,5 @@
 import React from "react";
-import NavLayout from "../../Layout/NavBar/NavLayout";
+import NavLayout from "../../layouts/NavBar/NavLayout";
 
 export default function NavBar() {
   return (

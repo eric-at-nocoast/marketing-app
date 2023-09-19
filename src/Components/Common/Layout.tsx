@@ -1,5 +1,5 @@
 import styled, { createGlobalStyle } from "styled-components";
-import StyloIcon from "../TicketScreen/StyloIcon";
+import StyloIcon from "../ticketScreen/StyloIcon";
 import { useNavigate } from "react-router-dom";
 import { ReactNode } from "react";
 
@@ -8,6 +8,7 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    overflow: hidden;
   }
 `;
 
@@ -77,11 +78,14 @@ function Layout({ children }: {children: ReactNode} ) {
     const navigate = useNavigate();
 
     return (
-      <>
+      <main style={{    
+        height: '100vh',
+        width: '100vw'
+        }}>
         <GlobalStyle />
         <TopRow>
           <TabContainer>
-            <Tab onClick={() => navigate('/')}><StyloIcon fill='#000000' marginValue='8px'/>{truncateText('This is an example subject truncated', 22)}</Tab>
+            <Tab onClick={() => navigate('/')}><StyloIcon fill='#000000' marginValue='8px'/>{truncateText('Pick a new industry', 22)}</Tab>
           </TabContainer>
         </TopRow>
         <MainNavigationPanel>
@@ -92,7 +96,7 @@ function Layout({ children }: {children: ReactNode} ) {
         <div>
         {children}
         </div>
-      </>
+      </main>
     );
   }
   
