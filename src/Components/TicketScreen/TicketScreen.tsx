@@ -236,76 +236,109 @@ function TicketScreen() {
 
 
   useEffect(() => {
-    const fallbackObj = {
-      comments: [
-        {
-          id: 1,
-          type: "Comment",
-          body: "Hello, I have a question about one of your products.",
-          public: true,
-          via: {
-            channel: "Web",
-            source: {
-              from: "Customer",
-              to: "EcoHomestead",
-            },
-          },
-        },
-        {
-          id: 2,
-          type: "Comment",
-          body: "Sure, go ahead and ask your question. I'll be happy to help!",
-          public: true,
-          via: {
-            channel: "Web",
-            source: {
-              from: "EcoHomestead",
-              to: "Customer",
-            },
-          },
-        },
-        {
-          id: 3,
-          type: "Comment",
-          body: "I'm interested in purchasing the 'EcoBamboo Cutting Board.' Can you please tell me what material it is made of?",
-          public: true,
-          via: {
-            channel: "Web",
-            source: {
-              from: "Customer",
-              to: "EcoHomestead",
-            },
-          },
-        },
-        {
-          id: 4,
-          type: "Comment",
-          body: "Thank you for your inquiry! The 'EcoBamboo Cutting Board' is made from 100% organic bamboo.",
-          public: true,
-          via: {
-            channel: "Web",
-            source: {
-              from: "EcoHomestead",
-              to: "Customer",
-            },
-          },
-        },
-        {
-          id: 5,
-          type: "Comment",
-          body: "That's great! Bamboo is a sustainable material. Does it come with any certifications?",
-          public: true,
-          via: {
-            channel: "Web",
-            source: {
-              from: "Customer",
-              to: "EcoHomestead",
-            },
-          },
-        },
-      ],
-      id: "ab1dfaed-2473-48ee-bd7a-831c3f5a911f",
-    };
+const fallbackObj ={
+  "comments": [
+      {
+          "id": 1,
+          "type": "Comment",
+          "body": "Hello, I am interested in finding courses that offer Continuing Education Units (CEUs). Can you help me with that?",
+          "public": true,
+          "via": {
+              "channel": "Customer Support",
+              "source": {
+                  "from": {
+                      "name": "Customer",
+                      "email": "customer@example.com"
+                  },
+                  "to": {
+                      "name": "Agent",
+                      "email": "agent@supportOrg.com"
+                  }
+              }
+          }
+      },
+      {
+          "id": 2,
+          "type": "Comment",
+          "body": "Of course! At LearnSphere, we offer a wide range of online courses that provide Continuing Education Units (CEUs). What specific field or topic are you looking for?",
+          "public": true,
+          "via": {
+              "channel": "Customer Support",
+              "source": {
+                  "from": {
+                      "name": "Agent",
+                      "email": "customer@example.com"
+                  },
+                  "to": {
+                      "name": "Customer",
+                      "email": "customer@example.com"
+                  }
+              }
+          }
+      },
+      {
+          "id": 3,
+          "type": "Comment",
+          "body": "I'm interested in courses related to project management. Can you recommend any?",
+          "public": true,
+          "via": {
+              "channel": "Customer Support",
+              "source": {
+                  "from": {
+                      "name": "Customer",
+                      "email": "customer@example.com"
+                  },
+                  "to": {
+                      "name": "Agent",
+                      "email": "agent@supportOrg.com"
+                  }
+              }
+          }
+      },
+      {
+          "id": 4,
+          "type": "Comment",
+          "body": "Absolutely! We have a highly-rated course called 'Effective Project Management' that offers 10 CEUs upon completion. It covers all the essential aspects of project management. Would you like more information about this course?",
+          "public": true,
+          "via": {
+              "channel": "Customer Support",
+              "source": {
+                  "from": {
+                      "name": "Agent",
+                      "email": "customer@example.com"
+                  },
+                  "to": {
+                      "name": "Customer",
+                      "email": "customer@example.com"
+                  }
+              }
+          }
+      },
+      {
+          "id": 5,
+          "type": "Comment",
+          "body": "Yes, please! I would like to know the duration, cost, and any prerequisites for the 'Effective Project Management' course.",
+          "public": true,
+          "via": {
+              "channel": "Customer Support",
+              "source": {
+                  "from": {
+                      "name": "Customer",
+                      "email": "customer@example.com"
+                  },
+                  "to": {
+                      "name": "Agent",
+                      "email": "agent@supportOrg.com"
+                  }
+              }
+          }
+      }
+  ],
+  "id": "d2bf5a3b-c0ac-4380-82d6-7117a5abea92"
+}
+
+
+    
     const industryObj = {
       education: {
       value: 'education',
@@ -337,7 +370,6 @@ function TicketScreen() {
     if(location.state.exampleObj && location.state.industry){
         const randomTicketId = Math.floor(Math.random() * 10000);
         const comments = location.state.exampleObj.comments;
-        console.log('test', comments)
         let cleanedComments: any[] = [];
   
         comments.forEach((comment: ExampleComment) => {
@@ -347,7 +379,7 @@ function TicketScreen() {
 
 
          const industry: string = location.state.industry;
-          const companySubdomain: string = industryObj[industry as keyof typeof industryObj].companysubdomain;
+        const companySubdomain: string = industryObj[industry as keyof typeof industryObj].companysubdomain;
 
 
         const ticketBody = {
@@ -360,9 +392,30 @@ function TicketScreen() {
           comments: cleanedComments,
         };
         setTicketBody(ticketBody);
-
+        setExampleObj(location.state.exampleObj)
       }
-    setExampleObj(location.state?.exampleObj || fallbackObj);
+    else {
+      const randomTicketId = Math.floor(Math.random() * 10000);
+      const comments = fallbackObj.comments;
+      let cleanedComments: any[] = [];
+
+      comments.forEach((comment: ExampleComment) => {
+        const outputData = transformJson(comment);
+        cleanedComments.push(outputData);
+      });
+      const ticketBody = {
+        ticket_info: {
+          subdomain: "d3v-trylo",
+          brand_subdomain: 'trylo-education',
+          ticket_id: randomTicketId,
+          description: cleanedComments[0].plain_text,
+        },
+        comments: cleanedComments,
+      };
+      setTicketBody(ticketBody);
+      setExampleObj(fallbackObj);
+
+    }
 
   }, [location.state.industry, location.state.exampleObj ]);
 
